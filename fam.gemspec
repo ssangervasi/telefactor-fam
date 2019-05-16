@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
 
   ## Dependencies
   spec.add_dependency 'hanami-cli'
+  spec.add_dependency 'tty-prompt'
 end

@@ -3,6 +3,7 @@ PATH
   specs:
     fam (0.1.0)
       hanami-cli
+      tty-prompt
 
 GEM
   remote: https://rubygems.org/
@@ -75,7 +76,6 @@ DEPENDENCIES
   rspec (~> 3.8)
   rubocop
   rubocop-rspec
-  tty-prompt (~> 0.18.1)
 
 RUBY VERSION
    ruby 2.6.1p33

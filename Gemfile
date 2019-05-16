@@ -13,5 +13,3 @@ group :lint do
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
 end
-
-gem "tty-prompt", "~> 0.18.1"

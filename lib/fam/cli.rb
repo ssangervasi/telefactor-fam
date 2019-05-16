@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# CLI tool: https://github.com/hanami/cli
 require 'hanami/cli'
 
 require 'fam'
@@ -19,7 +20,17 @@ module Fam
         end
       end
 
+      class Interactive < Hanami::CLI::Command
+        def call(*)
+          Fam::Interactive.new.start
+        end
+      end
+
       register 'version', Version, aliases: ['v', '-v', '--version']
+      register 'interactive', Interactive, aliases: ['i']
+
+      # Default to interactive if no command is provided.
+      register '', Interactive
     end
   end
 end
