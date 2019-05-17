@@ -4,6 +4,6 @@
 require 'bundler'
 require 'bundler/setup'
 
-require 'fam/cli'
+require 'fam'
 
-Fam::CLI.call
+Fam.interactive.start

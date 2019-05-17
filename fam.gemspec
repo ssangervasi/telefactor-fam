@@ -24,6 +24,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   ## Dependencies
-  spec.add_dependency 'hanami-cli'
   spec.add_dependency 'tty-prompt'
 end
