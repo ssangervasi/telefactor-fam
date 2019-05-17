@@ -9,63 +9,41 @@ module Fam
     attr_reader :prompt
 
     def start
-      state = WelcomeState.new(prompt: prompt)
-      state = state.call until state.terminal?
-    end
+      prompt.puts 'Fam -- Build your family tree.'
 
-    class State
-      def terminal?
-        false
-      end
-    end
+      prompt.puts 'What would you like to to do?'
+      prompt.puts '(enter "help" to see a list of commands)'
 
-    class PromptingState < State
-      def initialize(prompt:)
-        @prompt = prompt
-      end
-
-      attr_reader :prompt
-    end
-
-    class WelcomeState < PromptingState
-      def call
-        puts 'Fam -- Build your family tree.'
-
-        res = prompt.ask('What would you like to to do?')
+      loop do
+        res = prompt.ask('>')
         case res
         when 'help'
-          return HelpState.new(after: WelcomeState.new(prompt: prompt))
+          help
         when 'birth'
-          puts 'wow'
+          birth
+        else
+          prompt.puts "Sorry, didn't get that."
         end
-        TerminalState.new
       end
+    rescue TTY::Reader::InputInterrupt
+      prompt.puts 'See ya.'
     end
 
-    class HelpState < State
-      def initialize(after:)
-        @after = after
-      end
+    private
 
-      def call
-        puts <<~HELP
-          Available commands:
-            - help
-            - birth
-            - death
-        HELP
-        @after
-      end
+    def help
+      prompt.puts <<~HELP
+        Available commands:
+          - help
+          - birth
+          - death
+      HELP
     end
 
-    class TerminalState < State
-      def call
-        raise 'TerminalState'
-      end
-
-      def terminal?
-        true
-      end
+    def birth
+      prompt.puts 'Birth a new person'
+      person_name = prompt.ask('Name:')
+      prompt.puts "#{person_name} was born"
     end
   end
 end
