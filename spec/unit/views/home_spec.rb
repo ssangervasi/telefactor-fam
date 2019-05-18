@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-# I don't know if I need this
+# End-to-end test with simulated user input.
 RSpec.describe Fam::Views::Home do
   subject(:home) do
     described_class.new(prompt: prompt, family: family)

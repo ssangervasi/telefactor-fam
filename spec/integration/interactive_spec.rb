@@ -20,21 +20,24 @@ RSpec.describe Fam::Interactive do
     messages.each do |message|
       prompt.input << "#{message}\r"
     end 
+    prompt.input << "exit\r"
     prompt.input.rewind
   end
 
   describe 'asking for help' do
-    it 'works' do
-      script(
-        'help',
-        'exit'
-      )
+    it 'shows the available comands' do
+      script('help')
       
       interactive.start
 
-      expect(prompt.output.string)
-        .to include("Available commands:\n")
-        .and include("Later, fam!")
+      expect(prompt.output.string).to include(
+        <<~HELP
+          Available commands:
+            - help
+            - birth
+            - exit
+        HELP
+      )
     end
   end
 end
