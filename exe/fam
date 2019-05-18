@@ -1,9 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'bundler'
-require 'bundler/setup'
+require 'fam/cli'
 
-require 'fam'
-
-Fam.interactive
+Fam::CLI.call
