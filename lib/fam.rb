@@ -1,17 +1,14 @@
 # frozen_string_literal: true
 
-# Prompting tool: https://github.com/piotrmurach/tty-prompt
-require 'tty/prompt'
-
 require 'fam/version'
 require 'fam/interactive'
+require 'fam/views'
+require 'fam/family'
 
 module Fam
   class << self
     def interactive
-      Fam::Interactive.new(
-        prompt: TTY::Prompt.new
-      )
+      Fam::Interactive.new.start
     end
   end
 end
