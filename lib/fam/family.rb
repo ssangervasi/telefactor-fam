@@ -2,5 +2,6 @@
 
 module Fam
   class Family
+    
   end
 end

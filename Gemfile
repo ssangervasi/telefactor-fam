@@ -6,7 +6,10 @@ source 'https://rubygems.org'
 gemspec
 
 group :test do
+  # Test framework
   gem 'rspec', '~> 3.8'
+
+  # Debugging
   gem 'pry'
 end
 
