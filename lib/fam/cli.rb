@@ -3,7 +3,8 @@
 require 'hanami/cli'
 
 require 'fam'
-require 'fam/cli/commands'
+require 'fam/cli/add'
+require 'fam/cli/get'
 
 module Fam
   module CLI
@@ -11,6 +12,12 @@ module Fam
 
     def self.call
       Hanami::CLI.new(self).call
+    end
+
+    class Version < Hanami::CLI::Command
+      def call(*)
+        puts "fam #{Fam::VERSION}"
+      end
     end
 
     register 'add', Add, aliases: ['a'] do |prefix|
