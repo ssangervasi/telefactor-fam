@@ -12,13 +12,23 @@ module Fam::CLI
         .input_path
         .output_path
 
-      argument :name, required: true, desc: "The person's full name. Must be unique."
+      argument(
+        :person_name,
+        required: true,
+        desc: "The person's full name. Must be unique.",
+      )
 
-      def call(**args)
-        puts <<~MESSAGE
-          Adding person:
-          #{args.inspect}
-        MESSAGE
+      def call(
+        input_path:,
+        output_path:,
+        person_name:,
+        **
+      )
+        puts Fam.add_person(
+          input_path: input_path,
+          output_path: output_path,
+          person_name: person_name
+        )
       end
     end
 
@@ -28,11 +38,31 @@ module Fam::CLI
         .input_path
         .output_path
 
-      def call(**args)
-        puts <<~MESSAGE
-          Adding parent:
-          #{args.inspect}
-        MESSAGE
+      argument(
+        :child_name,
+        required: true,
+        desc: "The child's full name. Must already exist.",
+      )
+      argument(
+        :parent_names,
+        type: :array,
+        required: true,
+        desc: "The names of one or two parents who already exist.",
+      )
+
+      def call(
+        input_path:,
+        output_path:,
+        child_name:,
+        parent_names:,
+        **
+      )
+        puts Fam.add_parents(
+          input_path: input_path,
+          output_path: output_path,
+          child_name: child_name,
+          parent_names: parent_names
+        )
       end
     end
   end

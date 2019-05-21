@@ -7,7 +7,7 @@ require 'fam/cli/arg_defs'
 module Fam::CLI
   module Get
     class Parents < Hanami::CLI::Command
-      # ArgDefs.new(self)
+      # self.remove(horse: '99.1')
     end
   end
 end

@@ -20,10 +20,10 @@ module Fam
       end
     end
 
-    register 'add', Add, aliases: ['a'] do |prefix|
+    register 'add', aliases: ['a'] do |prefix|
       prefix.register 'person', Add::Person
-      prefix.register 'parent', Add::Parent
+      prefix.register 'parents', Add::Parent, aliases: %w[parent]
     end
-    register 'version', Version, aliases: ['v', '-v', '--version']
+    register 'version', Version, aliases: %w[v -v --version]
   end
 end
