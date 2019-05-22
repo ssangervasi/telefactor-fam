@@ -27,7 +27,7 @@ module Fam::CLI
         puts Fam.add_person(
           input_path: input_path,
           output_path: output_path,
-          person_name: person_name
+          person_name: person_name,
         )
       end
     end
@@ -47,7 +47,7 @@ module Fam::CLI
         :parent_names,
         type: :array,
         required: true,
-        desc: "The names of one or two parents who already exist.",
+        desc: 'The names of one or two parents who already exist.',
       )
 
       def call(
@@ -61,7 +61,7 @@ module Fam::CLI
           input_path: input_path,
           output_path: output_path,
           child_name: child_name,
-          parent_names: parent_names
+          parent_names: parent_names,
         )
       end
     end

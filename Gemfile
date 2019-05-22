@@ -11,6 +11,7 @@ group :test do
 
   # Debugging
   gem 'pry'
+  gem 'pry-byebug'
 end
 
 group :lint do
