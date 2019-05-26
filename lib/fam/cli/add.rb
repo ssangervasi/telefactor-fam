@@ -24,11 +24,11 @@ module Fam::CLI
         person_name:,
         **
       )
-        puts Fam.add_person(
+        Fam.add_person(
           input_path: input_path,
           output_path: output_path,
           person_name: person_name,
-        )
+        ).finish
       end
     end
 
@@ -57,12 +57,12 @@ module Fam::CLI
         parent_names:,
         **
       )
-        puts Fam.add_parents(
+        Fam.add_parents(
           input_path: input_path,
           output_path: output_path,
           child_name: child_name,
           parent_names: parent_names,
-        )
+        ).finish
       end
     end
   end

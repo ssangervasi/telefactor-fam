@@ -2,17 +2,24 @@
 
 require 'fam/version'
 require 'fam/family'
+require 'fam/cli/result'
 
 module Fam
   class << self
+    def Success(message = '')
+      Fam::CLI::Result.new(message, '', 0)
+    end
+
+    def Failure(message = '')
+      Fam::CLI::Result.new('', message, 1)
+    end
+
     def add_person(
       input_path:,
       output_path:,
       person_name:
     )
-      return <<~MESSAGE
-        Added person: #{person_name}
-      MESSAGE
+      Success("Added person: #{person_name}")
     end
 
     def add_parents(
@@ -21,11 +28,7 @@ module Fam
       child_name:,
       parent_names:
     )
-
-      return <<~MESSAGE
-        Added #{parent_names.join(' & ')}
-        as parents of #{child_name}
-      MESSAGE
+      Success("Added #{parent_names.join(' & ')} as parents of #{child_name}")
     end
   end
 end

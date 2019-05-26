@@ -3,13 +3,14 @@
 require 'hanami/cli'
 
 require 'fam'
+require 'fam/cli/result'
 require 'fam/cli/add'
 require 'fam/cli/get'
 
 module Fam
   module CLI
     extend Hanami::CLI::Registry
-
+    
     def self.call
       Hanami::CLI.new(self).call
     end
