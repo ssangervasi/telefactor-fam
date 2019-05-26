@@ -3,10 +3,15 @@
 require 'hanami/cli'
 
 require 'fam/cli/arg_defs'
+require 'fam/cli/result'
 
 module Fam::CLI
+  class Command < Hanami::CLI::Command
+    include ResultHelpers
+  end
+
   module Add
-    class Person < Hanami::CLI::Command
+    class Person < Command
       ArgDefs
         .new(self)
         .input_path
@@ -32,7 +37,7 @@ module Fam::CLI
       end
     end
 
-    class Parent < Hanami::CLI::Command
+    class Parent < Command
       ArgDefs
         .new(self)
         .input_path
@@ -56,7 +61,7 @@ module Fam::CLI
         child_name:,
         parent_names:,
         **
-      )
+      ) 
         Fam.add_parents(
           input_path: input_path,
           output_path: output_path,
@@ -64,6 +69,8 @@ module Fam::CLI
           parent_names: parent_names,
         ).finish
       end
+
+      def 
     end
   end
 end

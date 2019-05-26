@@ -5,21 +5,16 @@ require 'fam/family'
 require 'fam/cli/result'
 
 module Fam
+  # Includes .success and .failure
+  extend Fam::CLI::ResultHelpers
+
   class << self
-    def Success(message = '')
-      Fam::CLI::Result.new(message, '', 0)
-    end
-
-    def Failure(message = '')
-      Fam::CLI::Result.new('', message, 1)
-    end
-
     def add_person(
       input_path:,
       output_path:,
       person_name:
     )
-      Success("Added person: #{person_name}")
+      success("Added person: #{person_name}")
     end
 
     def add_parents(
@@ -28,7 +23,7 @@ module Fam
       child_name:,
       parent_names:
     )
-      Success("Added #{parent_names.join(' & ')} as parents of #{child_name}")
+      success("Added #{parent_names.join(' & ')} as parents of #{child_name}")
     end
   end
 end

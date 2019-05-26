@@ -11,7 +11,7 @@ RSpec.describe Fam::CLI::Add::Parent, :cli do
   let(:child_name) { 'Bart Simpson' }
   let(:parent_names) { ['Homer Simpson', 'Marge Simpson'] }
 
-  context 'when the child and parent names are given'do
+  context 'when the child and parent names are given' do
     it 'reports the parents were added' do
       expect(add_parent.output)
         .to include(child_name)
