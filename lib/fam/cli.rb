@@ -9,6 +9,10 @@ require 'fam/cli/add'
 require 'fam/cli/get'
 
 module Fam
+  # This module is going to remain between rounds.
+  # You should be able to the information you need by calling `--help`
+  # on each command from the shell.
+  # If you change anything in here it's going to be reset, so don't do it.
   module CLI
     extend Hanami::CLI::Registry
 

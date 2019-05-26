@@ -1,4 +1,8 @@
 # CLI Specs
 
 These tests are for the CLI part of the code which will not go away between
-turns. This is to make sure the usage of the app is still sane.
+turns. This is to make sure the app still runs to some extent, but it 
+doesn't check that it does any of the real behavior.
+
+Note that they won't go away, but if you modify them they'll be reset.
+No sneaking behavior tests in here.

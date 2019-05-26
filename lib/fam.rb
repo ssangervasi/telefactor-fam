@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
 require 'fam/version'
-require 'fam/family'
 require 'fam/cli/result'
+require 'fam/family'
 
 module Fam
   # Includes the .success and .failure helpers which return Fam::CLI::Result objects
-  # that the CLI knows how to handle.
+  # that the CLI knows how to handle. All of the module methods should return
+  # either `success(message)` or `failure(message)`, but how they do that
+  # is up to the implementer.
   extend Fam::CLI::ResultHelpers
 
   class << self
+    # IMPLEMENT ME
     def add_person(
       input_path:,
       output_path:,
@@ -18,6 +21,7 @@ module Fam
       success("Added person: #{person_name}")
     end
 
+    # IMPLEMENT ME
     def add_parents(
       input_path:,
       output_path:,
@@ -27,6 +31,7 @@ module Fam
       success("Added #{parent_names.join(' & ')} as parents of #{child_name}")
     end
 
+    # IMPLEMENT ME
     def get_parents(
       input_path:,
       child_name:,
@@ -40,6 +45,7 @@ module Fam
       )
     end
 
+    # IMPLEMENT ME
     def get_grandparents(
       input_path:,
       child_name:,

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rspec'
 require 'open3'
 
+require 'spec_helper'
 require 'fam/cli'
 
 def exec_fam(*fam_args)
