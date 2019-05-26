@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 module Fam::CLI
-  class ArgDefs
-    include Fam::CLI::ResultHelpers
-
+  class CommonArgDefs
     def initialize(command)
       @command = command
     end
@@ -12,6 +10,7 @@ module Fam::CLI
       tap do
         @command.option(
           :input_path,
+          aliases: %w[-i],
           desc: 'The family tree file read from.',
           default: './family.json',
         )
@@ -22,7 +21,19 @@ module Fam::CLI
       tap do
         @command.option(
           :output_path,
-          desc: 'The family tree file to save changes to.'
+          aliases: %w[-o],
+          desc: 'The family tree file to save changes to.',
+          default: './family.json'
+        )
+      end
+    end
+
+    def child_name
+      tap do
+        @command.argument(
+          :child_name,
+          required: true,
+          desc: "The child's full name. Must already exist."
         )
       end
     end

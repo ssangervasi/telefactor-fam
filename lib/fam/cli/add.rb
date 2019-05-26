@@ -2,17 +2,14 @@
 
 require 'hanami/cli'
 
-require 'fam/cli/arg_defs'
+require 'fam/cli/common_arg_defs'
 require 'fam/cli/result'
+require 'fam/cli/command'
 
 module Fam::CLI
-  class Command < Hanami::CLI::Command
-    include ResultHelpers
-  end
-
   module Add
     class Person < Command
-      ArgDefs
+      CommonArgDefs
         .new(self)
         .input_path
         .output_path
@@ -20,7 +17,7 @@ module Fam::CLI
       argument(
         :person_name,
         required: true,
-        desc: "The person's full name. Must be unique.",
+        desc: "The person's full name. Must be unique."
       )
 
       def call(
@@ -29,16 +26,18 @@ module Fam::CLI
         person_name:,
         **
       )
-        Fam.add_person(
-          input_path: input_path,
-          output_path: output_path,
-          person_name: person_name,
-        ).finish
+        finish(
+          Fam.add_person(
+            input_path: input_path,
+            output_path: output_path,
+            person_name: person_name
+          )
+        )
       end
     end
 
-    class Parent < Command
-      ArgDefs
+    class Parents < Command
+      CommonArgDefs
         .new(self)
         .input_path
         .output_path
@@ -46,13 +45,13 @@ module Fam::CLI
       argument(
         :child_name,
         required: true,
-        desc: "The child's full name. Must already exist.",
+        desc: "The child's full name. Must already exist."
       )
       argument(
         :parent_names,
         type: :array,
         required: true,
-        desc: 'The names of one or two parents who already exist.',
+        desc: 'The names of one or two parents who already exist.'
       )
 
       def call(
@@ -61,16 +60,16 @@ module Fam::CLI
         child_name:,
         parent_names:,
         **
-      ) 
-        Fam.add_parents(
-          input_path: input_path,
-          output_path: output_path,
-          child_name: child_name,
-          parent_names: parent_names,
-        ).finish
+      )
+        finish(
+          Fam.add_parents(
+            input_path: input_path,
+            output_path: output_path,
+            child_name: child_name,
+            parent_names: parent_names
+          )
+        )
       end
-
-      def 
     end
   end
 end

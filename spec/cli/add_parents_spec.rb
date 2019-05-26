@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'spec_helpers/cli'
 
-RSpec.describe Fam::CLI::Add::Parent, :cli do
+RSpec.describe Fam::CLI::Add::Parents, :cli do
   subject(:add_parent) do
     exec_fam('add', 'parent', child_name, *parent_names)
   end
@@ -21,8 +21,10 @@ RSpec.describe Fam::CLI::Add::Parent, :cli do
     it_behaves_like 'a successful command'
   end
 
-  context 'when the parent names are missing' do
-    let(:parent_names) { [] }
+  context 'when all names are missing' do
+    subject(:add_parent) do
+      exec_fam('add', 'parent')
+    end
 
     it_behaves_like 'a failed command'
   end

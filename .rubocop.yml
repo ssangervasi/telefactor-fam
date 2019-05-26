@@ -19,9 +19,6 @@ Style/Documentation:
 Style/ClassAndModuleChildren:
   Enabled: false
 
-Style/TrailingCommaInArguments:
-  EnforcedStyleForMultiline: consistent_comma
-
 Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: consistent_comma
 
