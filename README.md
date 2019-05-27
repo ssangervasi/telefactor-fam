@@ -1,4 +1,64 @@
+# New repo, who dis?
 
+Wattup, fam?! Welcome to `fam`, fam. Fam is:
+
+> The **only** CLI for building family trees.™
+>
+> Created by the child of Real-Life Parents™: `insert sourcer name here`
+>
+> Certified "Not Broken"™ by: `insert examiner name here`
+
+
+
+## What do I do?
+
+So you're thinking:
+
+> I've got this code.
+>
+> I've run through the setup.
+>
+> Now, [what am I gonna do?](https://youtu.be/tpD00Q4N6Jk)
+
+Well, you're either a _examiner_ or an _sourcerer_.
+
+### Examiner
+
+If you're an examiner, the `lib/fam/family` module should have a bunch of code in it.
+The `spec/family` directory, on the other hand, should be just about empty.
+
+It's up to you to write tests inside of `spec/family`
+(and maybe little in `spec/spec_helpers`)
+to validate the behavior of the family tree logic.
+
+Depending how confident you are with the implementation and your understanding
+of how the app is "supposed" to work, you might add code which...
+
+* Tests some behavior, and passes because the implementation works with it.
+* Tests some behavior, but fails because the implementation doesn't work how you think it should.
+* Doesn't test some behavior because it's just so obvious it works.
+* Doesn't test some behavior it's impossible!
+
+That's all the hints you get. So helpful, huh?
+
+### Sourcerer
+
+If you're a sourcerer, the `lib/fam/family` module should be a just about empty.
+The `spec/family` directory should have a bunch of failing tests which verify
+that emptiness!
+
+It's up to you to write source code inside of `lib/fam/family` and `lib/fam.rb`
+to make those tests pass.
+
+Depending how confident you are with the tests and your understanding
+of how the app is "supposed" to work, you might add code which...
+
+* Implements some behavior, and passes the tests because they work together.
+* Implements some behavior, but fails the tests because the tests don't work how you think they should.
+* Doesn't implement some behavior because the tests don't call for it.
+* Doesn't implement some behavior because it's impossible!
+
+That's all the hints you get. The clock is ticking.
 
 ## Setup
 
@@ -39,7 +99,7 @@ Run all the tests:
 bundle exec rspec
 ```
 
-Run the tests which testers are supposed to write:
+Run the tests which examiners are supposed to write:
 
 ```sh
 bundle exec rspec spec/family

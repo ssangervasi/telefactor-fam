@@ -8,7 +8,7 @@ module Fam
   # Includes the .success and .failure helpers which return Fam::CLI::Result objects
   # that the CLI knows how to handle. All of the module methods should return
   # either `success(message)` or `failure(message)`, but how they do that
-  # is up to the implementer.
+  # is up to the sourcerer.
   extend Fam::CLI::ResultHelpers
 
   class << self
