@@ -28,6 +28,16 @@ module Fam::CLI
       end
     end
 
+    def person_name
+      tap do
+        @command.argument(
+          :person_name,
+          required: true,
+          desc: "The person's full name. Must be unique."
+        )
+      end
+    end
+
     def child_name
       tap do
         @command.argument(

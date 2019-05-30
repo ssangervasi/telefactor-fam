@@ -31,12 +31,13 @@ module Fam
     end
 
     register 'add', aliases: ['a'] do |prefix|
-      prefix.register 'person', Add::Person
-      prefix.register 'parents', Add::Parents, aliases: %w[parent p]
+      prefix.register 'person', Add::Person, aliases: %w[p]
+      prefix.register 'parents', Add::Parents, aliases: %w[parent pt]
     end
     register 'get', aliases: ['g'] do |prefix|
-      prefix.register 'parents', Get::Parents, aliases: %w[parent p grandparents]
-      prefix.register 'grandparents', Get::Grandparents, aliases: %w[grandparent gp]
+      prefix.register 'person', Get::Person, aliases: %w[p]
+      prefix.register 'parents', Get::Parents, aliases: %w[parent pt]
+      prefix.register 'grandparents', Get::Grandparents, aliases: %w[grandparent gpt]
     end
     register 'version', Version, aliases: %w[v -v --version]
   end

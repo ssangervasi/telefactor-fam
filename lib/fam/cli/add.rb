@@ -13,12 +13,7 @@ module Fam::CLI
         .new(self)
         .input_path
         .output_path
-
-      argument(
-        :person_name,
-        required: true,
-        desc: "The person's full name. Must be unique."
-      )
+        .person_name
 
       def call(
         input_path:,

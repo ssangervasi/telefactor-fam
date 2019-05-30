@@ -6,6 +6,26 @@ require 'fam/cli/common_arg_defs'
 
 module Fam::CLI
   module Get
+    class Person < Command
+      CommonArgDefs
+        .new(self)
+        .input_path
+        .person_name
+
+      def call(
+        input_path:,
+        person_name:,
+        **
+      )
+        finish(
+          Fam.get_person(
+            input_path: input_path,
+            person_name: person_name
+          )
+        )
+      end
+    end
+
     class Parents < Command
       CommonArgDefs
         .new(self)
@@ -32,10 +52,12 @@ module Fam::CLI
         side:,
         **
       )
-        Fam.get_parents(
-          input_path: input_path,
-          child_name: child_name,
-          side: side
+        finish(
+          Fam.get_parents(
+            input_path: input_path,
+            child_name: child_name,
+            side: side
+          )
         )
       end
     end

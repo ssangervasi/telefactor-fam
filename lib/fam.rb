@@ -32,6 +32,18 @@ module Fam
     end
 
     # IMPLEMENT ME
+    def get_person(
+      input_path:,
+      person_name:
+    )
+      success(
+        <<~MESSAGE
+          Sir Julius, of the Orange
+        MESSAGE
+      )
+    end
+
+    # IMPLEMENT ME
     def get_parents(
       input_path:,
       child_name:,
