@@ -108,10 +108,13 @@ bundle exec rspec spec/family
 Run the CLI tests which don't change between rounds:
 
 ```sh
-bundle exec rspec spec/cli 
+bundle exec rspec spec/cli
 ```
 
 ### 5. Lint
+
+Don't burn time conforming to the style rules in this project, but use them
+as guidelines.
 
 ```sh
 bundle exec rubocop
