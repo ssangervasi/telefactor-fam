@@ -15,16 +15,14 @@ module Fam
       "#<#{self.class.name} with #{people.length} members>"
     end
 
-    def add_person(name:)
-      raise Errors::DuplicatePerson if has_person?(name: name)
+    def add_person(person)
+      raise Errors::DuplicatePerson if has_person?(person)
 
-      Person.with_name(name).tap do |new_person|
-        name_to_person[name] = new_person
-      end
+      name_to_person[name] = new_person
     end
 
-    def has_person?(name:)
-      name_to_person.include?(name)
+    def has_person?(person)
+      name_to_person.include?(person.name)
     end
 
     def get_person(name:)
@@ -60,14 +58,9 @@ module Fam
   end
 
   Person = Struct.new(
-    :name,
-    :parents,
+    :name
     keyword_init: true
-  ) do
-    def self.with_name(name)
-      new(name: name, parents: [].freeze)
-    end
-  end
+  )
 
   Relationship = Struct.new(
     :child_name,

@@ -1,23 +1,15 @@
 # frozen_string_literal: true
 
 require 'fam'
+require 'spec_helpers/names'
 
-module Names
+
+module Hatchery
   class << self
-    def bart
-      'Bart Simpson'
-    end
-
-    def homer
-      'Homer Simpson'
-    end
-
-    def marge
-      'Marge Simpson'
-    end
-
-    def simpsons
-      [bart, homer, marge]
+    def many_people(names:)
+      names.map do |name|
+        Fam::Person.new(name: name)
+      end
     end
   end
 end

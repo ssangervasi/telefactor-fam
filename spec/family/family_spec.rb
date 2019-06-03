@@ -6,46 +6,39 @@ RSpec.describe Fam::Family do
   subject(:family) { described_class.new }
 
   describe '#add_person' do
-    let(:example_name) { 'Josè Exemplo' }
+    let(:example_person) { Family::Person.new(name: Names.jose) }
 
     context 'when the name is new' do
-      subject(:add_person) { family.add_person(name: example_name) }
+      subject(:add_person) { family.add_person(example_person) }
 
       it 'adds a person' do
         add_person
-        expect(family).to have_person(name: example_name)
-      end
-
-      it 'returns the person' do
-        expect(add_person).to be_an_object_having_attributes(
-          name: example_name
-        )
+        expect(family).to have_person(example_person)
       end
     end
 
     context 'when the name has already been added' do
       it 'raises a duplicate person error' do
-        family.add_person(name: example_name)
+        family.add_person(example_person)
 
-        expect { family.add_person(name: example_name) }
+        expect { add_person }
           .to raise_error(Fam::Errors::DuplicatePerson)
       end
     end
 
     context 'when adding many people' do
       subject(:add_many) do
-        people_names.each do |name|
-          family.add_person(name: name)
+        example_people.each do |person|
+          family.add_person(person)
         end
       end
-
-      let(:people_names) { ['Jimby Nimby', 'Dib', 'Slammy'] }
+      let(:example_people) { Hatchery.many_people(names: Names.simpsons) }
 
       it 'includes them all' do
         add_many
         aggregate_failures do
-          people_names.each do |name|
-            expect(family).to have_person(name: name)
+          example_people.each do |person|
+            expect(family).to have_person(person)
           end
         end
       end
@@ -53,21 +46,15 @@ RSpec.describe Fam::Family do
   end
 
   describe '#add_parents' do
-
     it 'works' do
       Names.simpsons.each { |name| family.add_person(name: name) }
 
-      bart = family.add_parents(
+      family.add_parents(
         child_name: Names.bart,
         parent_names: [
           Names.homer,
           Names.marge,
         ]
-      )
-
-      expect(bart.parents).to include(
-        an_object_with_attributes(name: Names.homer),
-        an_object_with_attributes(name: Names.marge),
       )
     end
   end

@@ -11,7 +11,8 @@
 # See https://github.com/rubocop-hq/rubocop/blob/master/manual/configuration.md
 
 Metrics/BlockLength:
-  Exclude: '*_spec.rb'
+  Exclude:
+    - '**/*_spec.rb'
 
 Metrics/LineLength:
   Max: 99
