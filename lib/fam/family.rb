@@ -11,6 +11,9 @@ module Fam
   # Other than the class name, everything in here gets cleared when before
   # the code is handed off to the sourcerer.
   class Family
+    def initialize(people: [], relationships: [])
+    end
+
     def inspect
       "#<#{self.class.name} with #{people.length} members>"
     end

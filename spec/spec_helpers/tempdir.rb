@@ -16,6 +16,5 @@ RSpec.shared_context 'tempdir' do
 
   after(:each) do
     FileUtils.remove_dir(tempdir, true)
-    expect(tempdir_pathname).to_not exist
   end
 end

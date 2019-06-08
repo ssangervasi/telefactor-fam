@@ -29,10 +29,10 @@ module Fam::File
       end
 
       def read
-        raise FileMissing, pathname unless pathname.exist?
+        raise Errors::FileMissing, pathname unless pathname.exist?
 
         read_json
-        raise InvalidFormat, @format_error if invalid_format?
+        raise Errors::InvalidFormat, @format_error if invalid_format?
 
         Fam::Family.new(
           people: people,
@@ -56,9 +56,7 @@ module Fam::File
       end
 
       def read_json
-        @json_hash ||= pathname.open do |file|
-          JSON.parse(file)
-        end
+        @json_hash ||= JSON.parse(pathname.read)
       rescue JSON::ParserError => e
         @parser_error = e.message
       end
