@@ -3,6 +3,8 @@
 require 'fam/version'
 require 'fam/cli/result'
 require 'fam/family'
+require 'fam/file'
+
 
 module Fam
   # Includes the .success and .failure helpers which return Fam::CLI::Result objects
@@ -18,6 +20,7 @@ module Fam
       output_path:,
       person_name:
     )
+      Fam::File::Reader.create(input_path)
       success("Added person: #{person_name}")
     end
 

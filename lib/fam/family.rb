@@ -36,8 +36,6 @@ module Fam
       parents = parent_names.map do |name|
         get_person(name: name)
       end
-
-
     end
 
     def get_parents(child_name:)
@@ -50,7 +48,7 @@ module Fam
       @name_to_person ||= {}
     end
 
-    def get_relation
+    # def get_relation
 
     def relationships
       @relationships ||= Set.new
@@ -58,7 +56,7 @@ module Fam
   end
 
   Person = Struct.new(
-    :name
+    :name,
     keyword_init: true
   )
 

@@ -6,7 +6,7 @@ RSpec.describe Fam::Family do
   subject(:family) { described_class.new }
 
   describe '#add_person' do
-    let(:example_person) { Family::Person.new(name: Names.jose) }
+    let(:example_person) { Fam::Person.new(name: Hatchery::Names.jose) }
 
     context 'when the name is new' do
       subject(:add_person) { family.add_person(example_person) }
@@ -32,7 +32,7 @@ RSpec.describe Fam::Family do
           family.add_person(person)
         end
       end
-      let(:example_people) { Hatchery.many_people(names: Names.simpsons) }
+      let(:example_people) { Hatchery.many_people(names: Hatchery::Names.simpsons) }
 
       it 'includes them all' do
         add_many
@@ -47,13 +47,13 @@ RSpec.describe Fam::Family do
 
   describe '#add_parents' do
     it 'works' do
-      Names.simpsons.each { |name| family.add_person(name: name) }
+      Hatchery::Names.simpsons.each { |name| family.add_person(name: name) }
 
       family.add_parents(
-        child_name: Names.bart,
+        child_name: Hatchery::Names.bart,
         parent_names: [
-          Names.homer,
-          Names.marge,
+          Hatchery::Names.homer,
+          Hatchery::Names.marge,
         ]
       )
     end
