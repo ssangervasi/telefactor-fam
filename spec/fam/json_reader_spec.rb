@@ -6,7 +6,7 @@ RSpec.describe Fam::File::Reader::JSONReader do
   include_context 'tempdir'
 
   subject(:reader) do
-    described_class.new(path: input_pathname.to_s)
+    described_class.new(pathname: input_pathname)
   end
 
   let(:input_pathname) { tempdir_pathname.join('input.json') }
@@ -24,14 +24,14 @@ RSpec.describe Fam::File::Reader::JSONReader do
     context 'when the file exists' do
       before do
         input_pathname.write(
-          JSON.dump(
+          JSON.generate(
             people: [],
             relationships: []
           )
         )
       end
 
-      it { is_expected.to be_kind_of(Fam::Family) }
+      it { is_expected.to be_kind_of(Hash) }
     end
   end
 end

@@ -8,68 +8,24 @@ module Fam::File
     module Errors
       class Any < StandardError; end
       class InvalidPath < Any; end
-      class WriteError < Any; end
     end
 
-    def self.create(path:, family:)
+    def self.create(path:)
       raise InvalidPath, path.inspect if path.nil? || path.empty?
 
-      JSONWriter.new(path: path, family: family)
+      JSONWriter.new(pathname: Pathname.new(path))
     end
 
     class JSONWriter
-      def initialize(path:, family:)
-        @path = path
-        @family = family
+      def initialize(pathname:)
+        @pathname = pathname
       end
 
-      def write
-        write_json
-        raise InvalidFormat, @format_error if invalid_format?
-      end
-
-      private
-
-      def invalid_format?
-        parse_json
-
-        @format_error =
-          if !@parser_error.nil?
-            @parser_error
-          elsif !@json_hash.include?('people')
-            'Missing key "people" in family file.'
-          elsif !@json_hash.include?('relationships')
-            'Missing key "relationships" in family file.'
-          end
-
-        !@format_error.nil?
-      end
-
-      def parse_json
-        @json_hash ||= pathname.open do |file|
-          JSON.parse(file)
-        end
-      rescue JSON::ParserError => e
-        @parser_error = e.message
-      end
-
-      def pathname
-        @pathname ||= Pathname.new(@path)
-      end
-
-      def people
-        @json_hash['people'].map do |person|
-          Fam::Person.new(name: person['name'])
-        end
-      end
-
-      def relationships
-        @json_hash['relationships'].map do |relationship|
-          Fam::Relationship.new(
-            child_name: relationship['child_name'],
-            parent_name: relationship['parent_name'],
-            side: relationship['side']
-          )
+      # Writes to the specified pathname.
+      # Returns the JSON string that was written.
+      def write(json_hash:)
+        JSON.pretty_generate(json_hash).tap do |json_string|
+          @pathname.write(json_string)
         end
       end
     end
