@@ -8,8 +8,10 @@ module Fam::CLI
       exit(status)
     end
   end
+end
 
-  module ResultHelpers
+class Fam::CLI::Result
+  module Helpers
     def success(message = '')
       Fam::CLI::Result.new(message, '', 0)
     end

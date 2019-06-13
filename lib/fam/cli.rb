@@ -21,7 +21,7 @@ module Fam
     end
 
     class Version < Command
-      include ResultHelpers
+      include Result::Helpers
 
       def call(*)
         finish(
