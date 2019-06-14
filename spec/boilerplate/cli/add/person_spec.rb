@@ -2,7 +2,7 @@
 
 require 'spec_helpers/cli'
 
-RSpec.describe 'fam add person' do
+RSpec.describe Fam::CLI::Add::Person, :cli do
   subject(:add_person) do
     exec_fam('add', 'person', person_name)
   end
