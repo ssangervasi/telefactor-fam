@@ -5,7 +5,7 @@ module Hatchery
   class << self
     def many_people(names:)
       names.map do |name|
-        Fam::Person.new(name: name)
+        Fam::Family::Person.new(name: name)
       end
     end
   end

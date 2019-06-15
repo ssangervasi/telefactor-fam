@@ -5,24 +5,35 @@ require 'spec_helper'
 RSpec.describe Fam::Family do
   subject(:family) { described_class.new }
 
-  describe '#add_person' do
-    let(:example_person) { Fam::Person.new(name: Hatchery::Names.jose) }
+  describe '.from_h' do
+    it 'works' do
+      family_from_h = described_class.from_h(
+      )
+      expect()
+    end
+  end
+
+
+  xdescribe '#add_person' do
+    let(:example_person) { Fam::Family::Person.new(name: Hatchery::Names.jose) }
 
     context 'when the name is new' do
       subject(:add_person) { family.add_person(example_person) }
 
       it 'adds a person' do
         add_person
-        expect(family).to have_person(example_person)
+        expect(family).to include(example_person)
       end
     end
 
     context 'when the name has already been added' do
+      subject(:add_person) { family.add_person(example_person) }
+
       it 'raises a duplicate person error' do
         family.add_person(example_person)
 
         expect { add_person }
-          .to raise_error(Fam::Errors::DuplicatePerson)
+          .to raise_error(Fam::Family::Errors::DuplicatePerson)
       end
     end
 
@@ -38,7 +49,7 @@ RSpec.describe Fam::Family do
         add_many
         aggregate_failures do
           example_people.each do |person|
-            expect(family).to have_person(person)
+            expect(family).to include(person)
           end
         end
       end

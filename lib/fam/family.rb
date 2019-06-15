@@ -1,16 +1,42 @@
 # frozen_string_literal: true
 
-module Fam
-  module Errors
-    class Any < StandardError; end
-    class DuplicatePerson < Any; end
-    class NoSuchPerson < Any; end
-  end
+require 'fam/family/person'
+require 'fam/family/nuclear'
+require 'fam/family/relationship'
 
+module Fam
   # IMPLEMENT ME
   # Other than the class name, everything in here gets cleared when before
   # the code is handed off to the sourcerer.
   class Family
+    module Errors
+      class Any < StandardError; end
+      class DuplicatePerson < Any; end
+      class NoSuchPerson < Any; end
+    end
+
+    def self.from_h(input_hash)
+      people =
+        input_hash
+        .fetch(:people, [])
+        .map(*Person.method(:from_h))
+      relationships =
+        input_hash
+        .fetch(:relationships, [])
+        .map(*Relationship.method(:from_h))
+      new(
+        people: people,
+        relationships: relationships
+      )
+    end
+
+    def to_h
+      {
+        people: people.map(&:to_h),
+        relationships: relationships.map(&:to_h),
+      }
+    end
+
     def initialize(people: [], relationships: [])
     end
 
@@ -19,17 +45,17 @@ module Fam
     end
 
     def add_person(person)
-      raise Errors::DuplicatePerson if has_person?(person)
+      raise Errors::DuplicatePerson if include?(person)
 
-      name_to_person[name] = new_person
+      name_to_person[person.name] = person
     end
 
-    def has_person?(person)
+    def include?(person)
       name_to_person.include?(person.name)
     end
 
     def get_person(name:)
-      raise NoSuchPerson unless has_person?(name: name)
+      raise NoSuchPerson unless include?(name: name)
 
       name_to_person.fetch(name)
     end
@@ -41,7 +67,7 @@ module Fam
       end
     end
 
-    def get_parents(child_name:)
+    def get_parents(person)
       []
     end
 
@@ -57,16 +83,4 @@ module Fam
       @relationships ||= Set.new
     end
   end
-
-  Person = Struct.new(
-    :name,
-    keyword_init: true
-  )
-
-  Relationship = Struct.new(
-    :child_name,
-    :parent_name,
-    :side,
-    keyword_init: true
-  )
 end

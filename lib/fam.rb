@@ -2,8 +2,9 @@
 
 require 'fam/version'
 require 'fam/cli/result'
-require 'fam/family'
 require 'fam/file'
+
+require 'fam/family'
 
 module Fam
   # Includes the .success and .failure helpers which return Fam::CLI::Result objects
