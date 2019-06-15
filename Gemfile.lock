@@ -8,6 +8,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.0)
+    awesome_print (1.8.0)
     byebug (10.0.2)
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
@@ -60,6 +61,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print (~> 1.8)
   fam!
   pry
   pry-byebug

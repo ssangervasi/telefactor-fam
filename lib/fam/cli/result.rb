@@ -7,6 +7,14 @@ module Fam::CLI
       error.empty? || warn(error)
       exit(status)
     end
+
+    def success?
+      status.zero?
+    end
+
+    def failure?
+      !success?
+    end
   end
 end
 

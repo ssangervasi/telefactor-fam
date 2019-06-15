@@ -9,16 +9,21 @@ RSpec.describe Fam do
   let(:output_pathname) { tempdir_pathname.join('family-out.json') }
 
   describe '#add_person' do
-    let(:person_name) { Hatchery::Names.jose }
-
-    it 'writes the output file' do
+    subject(:add_person) do
       Fam.add_person(
         input_path: input_pathname.to_s,
         output_path: output_pathname.to_s,
         person_name: person_name
       )
+    end
 
+    let(:person_name) { Hatchery::Names.jose }
+
+    it 'writes the output file' do
+      add_person
       expect(output_pathname.read).to include(person_name)
     end
+
+    it { is_expected.to be_success }
   end
 end

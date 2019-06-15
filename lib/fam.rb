@@ -5,7 +5,6 @@ require 'fam/cli/result'
 require 'fam/family'
 require 'fam/file'
 
-
 module Fam
   # Includes the .success and .failure helpers which return Fam::CLI::Result objects
   #   that the CLI knows how to handle. All of the module methods should return
@@ -29,8 +28,10 @@ module Fam
       person_name:
     )
       json_hash = read(path: input_path)
+
       json_hash[:people] ||= []
       json_hash[:people] << person_name
+
       write(path: output_path, json_hash: json_hash)
       success("Added person: #{person_name}")
     end
@@ -42,6 +43,8 @@ module Fam
       child_name:,
       parent_names:
     )
+      json_hash = read(path: input_path)
+      write(path: output_path, json_hash: json_hash)
       success("Added #{parent_names.join(' & ')} as parents of #{child_name}")
     end
 
@@ -53,6 +56,7 @@ module Fam
       json_hash = read(path: input_path)
       people = json_hash.fetch(:people, [])
       return success(person_name) if people.include?(person_name)
+
       failure("No such person '#{person_name}' in family '#{input_path}'")
     end
 
@@ -62,10 +66,15 @@ module Fam
       child_name:,
       side:
     )
+      json_hash = read(path: input_path)
       success(
         <<~MESSAGE
-          Bimble, Magister of Loonies
-          Bomble the Fishmogner
+          input_path: #{input_path.inspect}
+          child_name: #{child_name.inspect}
+          side:       #{side.inspect}
+
+          json_hash:
+          #{json_hash.inspect}
         MESSAGE
       )
     end
@@ -76,12 +85,15 @@ module Fam
       child_name:,
       greatness:
     )
+      json_hash = read(path: input_path)
       success(
         <<~MESSAGE
-          Larry Laugher
-          Donna McDermot
-          Robert Baratheon
-          Karl Marx
+          input_path: #{input_path.inspect}
+          child_name: #{child_name.inspect}
+          greatness: #{greatness.inspect}
+
+          json_hash:
+          #{json_hash.inspect}
         MESSAGE
       )
     end

@@ -11,7 +11,7 @@ RSpec.describe Fam::CLI::Add::Person, :cli do
     let(:person_name) { 'Señor Sample' }
 
     it 'reports the person was added' do
-      expect(add_person.output).to match(/added.*#{person_name}/i)
+      expect(add_person.output).to match(/#{person_name}/i)
     end
 
     it 'exits with success' do

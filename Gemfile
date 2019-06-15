@@ -10,6 +10,7 @@ group :test do
   gem 'rspec', '~> 3.8'
 
   # Debugging
+  gem 'awesome_print', '~> 1.8'
   gem 'pry'
   gem 'pry-byebug'
 end

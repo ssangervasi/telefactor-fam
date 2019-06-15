@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Basically a bunch of fixtures. Use it, change it, whatever you want.
 module Hatchery
   class << self
     def many_people(names:)
