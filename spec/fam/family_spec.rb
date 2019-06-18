@@ -6,11 +6,26 @@ RSpec.describe Fam::Family do
   subject(:family) { described_class.new }
 
   describe '.from_h' do
-    it 'works' do
-      family_from_h = described_class.from_h(
+    subject(:family) do
+      described_class.from_h(
+        people: [
+          {
+            name: Hatchery::Names.bart
+          },
+          {
+            name: Hatchery::Names.homer
+          }
+        ],
+        relationships: [
+          child_name: Hatchery::Names.bart,
+          parent_name: Hatchery::Names.homer,
+          side: Fam::Family::Relationship::Sides::RIGHT
+        ]
       )
-      expect()
     end
+
+    it { is_expected.to be_a_kind_of(Fam::Family) }
+    it { is_expected.to include(Hatchery::Names.bart, Hatchery::Names.homer) }
   end
 
 
@@ -56,7 +71,7 @@ RSpec.describe Fam::Family do
     end
   end
 
-  describe '#add_parents' do
+  xdescribe '#add_parents' do
     it 'works' do
       Hatchery::Names.simpsons.each { |name| family.add_person(name: name) }
 

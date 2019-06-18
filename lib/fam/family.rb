@@ -19,11 +19,11 @@ module Fam
       people =
         input_hash
         .fetch(:people, [])
-        .map(*Person.method(:from_h))
+        .map(&Person.method(:from_h))
       relationships =
         input_hash
         .fetch(:relationships, [])
-        .map(*Relationship.method(:from_h))
+        .map(&Relationship.method(:from_h))
       new(
         people: people,
         relationships: relationships
@@ -32,16 +32,18 @@ module Fam
 
     def to_h
       {
-        people: people.map(&:to_h),
+        people: @people.map(&:to_h),
         relationships: relationships.map(&:to_h),
       }
     end
 
     def initialize(people: [], relationships: [])
+      @people = people
+      @relationships = relationships
     end
 
     def inspect
-      "#<#{self.class.name} with #{people.length} members>"
+      "#<#{self.class.name} with #{@people.length} members>"
     end
 
     def add_person(person)
@@ -50,8 +52,8 @@ module Fam
       name_to_person[person.name] = person
     end
 
-    def include?(person)
-      name_to_person.include?(person.name)
+    def include?(name)
+      name_to_person.include?(name)
     end
 
     def get_person(name:)
@@ -74,7 +76,9 @@ module Fam
     private
 
     def name_to_person
-      @name_to_person ||= {}
+      @name_to_person ||= @people.to_h do |person|
+        [person.name, person]
+      end
     end
 
     # def get_relation
