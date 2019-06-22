@@ -19,14 +19,26 @@ RSpec.shared_context 'CLI' do
   end
 
   shared_examples 'a successful command' do
+    let(:expected_output) { /.*/ }
+
     it 'exits with a zero status code' do
       expect(subject.status).to eq(0), (subject.output + subject.error)
+    end
+
+    it 'matches the expected output' do
+      expect(subject.output).to match expected_output
     end
   end
 
   shared_examples 'a failed command' do
+    let(:expected_error) { /.*/ }
+
     it 'exits with a non-zero status code' do
       expect(subject.status).to (be > 0), (subject.output + subject.error)
+    end
+
+    it 'matches the expected error' do
+      expect(subject.error).to match expected_error
     end
   end
 end

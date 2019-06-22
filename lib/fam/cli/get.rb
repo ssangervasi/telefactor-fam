@@ -45,7 +45,7 @@ module Fam::CLI
         finish(
           Fam.get_parents(
             input_path: input_path,
-            child_name: child_name,
+            child_name: child_name
           )
         )
       end
