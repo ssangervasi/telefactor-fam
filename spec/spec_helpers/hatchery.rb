@@ -2,14 +2,6 @@
 
 # Basically a bunch of fixtures. Use it, change it, whatever you want.
 module Hatchery
-  class << self
-    def many_people(names:)
-      names.map do |name|
-        Fam::Family::Person.new(name: name)
-      end
-    end
-  end
-
   module Names
     class << self
       def simpsons
@@ -30,6 +22,30 @@ module Hatchery
 
       def jose
         'José Exemplo'
+      end
+    end
+  end
+
+  module People
+    class << self
+      def simpsons
+        [bart, homer, marge]
+      end
+
+      def bart
+        Fam::Family::Person.new(name: Hatchery::Names.bart)
+      end
+
+      def homer
+        Fam::Family::Person.new(name: Hatchery::Names.homer)
+      end
+
+      def marge
+        Fam::Family::Person.new(name: Hatchery::Names.marge)
+      end
+
+      def jose
+        Fam::Family::Person.new(name: Hatchery::Names.jose)
       end
     end
   end

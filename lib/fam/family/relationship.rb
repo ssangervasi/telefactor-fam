@@ -5,7 +5,7 @@ class Fam::Family
     def self.from_h(input_hash)
       new(
         child_name: input_hash.fetch(:child_name),
-        parent_name: input_hash.fetch(:parent_name),
+        parent_name: input_hash.fetch(:parent_name)
       )
     end
 

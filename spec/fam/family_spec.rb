@@ -28,11 +28,11 @@ RSpec.describe Fam::Family do
   end
 
   describe '#add_person' do
-    let(:example_person) { Fam::Family::Person.new(name: Hatchery::Names.jose) }
+    subject(:add_person) { family.add_person(example_person) }
+
+    let(:example_person) { Hatchery::People.jose }
 
     context 'when the name is new' do
-      subject(:add_person) { family.add_person(example_person) }
-
       it 'adds a person' do
         add_person
         expect(family).to include(example_person.name)
@@ -40,8 +40,6 @@ RSpec.describe Fam::Family do
     end
 
     context 'when the name has already been added' do
-      subject(:add_person) { family.add_person(example_person) }
-
       it 'raises a duplicate person error' do
         family.add_person(example_person)
 
@@ -50,13 +48,13 @@ RSpec.describe Fam::Family do
       end
     end
 
-    context 'when adding many people' do
+    describe 'adding many people' do
       subject(:add_many) do
         example_people.each do |person|
           family.add_person(person)
         end
       end
-      let(:example_people) { Hatchery.many_people(names: Hatchery::Names.simpsons) }
+      let(:example_people) { Hatchery::People.simpsons }
 
       it 'includes them all' do
         add_many
@@ -66,6 +64,25 @@ RSpec.describe Fam::Family do
           end
         end
       end
+    end
+  end
+
+  describe '#add_parent' do
+    subject(:add_parent) do
+      family.add_person(example_child)
+      family.add_person(example_parent)
+      family.add_parent(
+        parent: example_parent,
+        child: example_child
+      )
+    end
+
+    let(:example_parent) { Hatchery::People.homer }
+    let(:example_child) { Hatchery::People.bart }
+
+    it 'allows you to get the parent afterwards' do
+      add_parent
+      expect(family.get_parents(example_child)).to include(example_parent)
     end
   end
 end
