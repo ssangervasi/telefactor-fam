@@ -4,11 +4,14 @@ require 'pathname'
 require 'tmpdir'
 
 # Including this context makes the test run in a temporary directory that is
-#   created before each test and deleted afterwards.
+#   created before each test and deleted afterwards. Note that this is quite slow,
+#   so only include it if a test needs to edit files.
+#
 # Available let-helpers:
 #   tempdir_pathname - A Pathname object wrapping the tempdir string.
 #   original_dir_pathname - A Pathname object of the directory before navigating to tempdir.
 #   tempdir - The string path of the created directory.
+#
 # Configurable let-helpers:
 #   tempdir_prefix - The prefix passed to `Dir.mktmpdir`. Default: "tempdir".
 RSpec.shared_context 'tempdir' do

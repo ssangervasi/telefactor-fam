@@ -5,6 +5,9 @@ require 'open3'
 require 'spec_helper'
 require 'fam/cli'
 
+# This shared context is used in the boilerplate specs to execute actual
+#   commands use the whole CLI system. It also does File I/O, so it's slow!
+#   You shouldn't need to worry about this file.
 RSpec.shared_context 'CLI' do
   include_context 'tempdir'
 

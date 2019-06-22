@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 # Basically a bunch of fixtures. Use it, change it, whatever you want.
+#
+# The methods in here make some assumptions about how a family is constructed,
+#   but you can change or ignore these as long as you're not breaking the rules
+#   to do so.
+# That is, a sourcer can edit this file, but not if it would require editing the
+#   tests as well.
+# And an examiner can edit this file, but not if it would require editing the
+#   source code.
 module Hatchery
   module Names
     class << self
@@ -86,7 +94,7 @@ module Hatchery
     end
 
     # Consructs a dense family tree @gen_count tall, starting with one child
-    #   and expanding up to their parents, grandparents, great...
+    #   and expanding up to their parents, grandparents, great-grandparents...
     def great_big_family
       @great_big_family ||= Fam::Family.new(people: generations.flatten).tap do |family|
         generations.first(@gen_count - 1).each_with_index do |children, gen_index|

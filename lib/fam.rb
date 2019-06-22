@@ -21,6 +21,10 @@ module Fam
   #   to save their output. This creates the file, or overwrites if it already exists.
   extend Fam::File::Helpers
 
+  # These static methods are the only entrypoint that the CLI has to the application.
+  #   So, as long as implementation uses the aruguments correctly and returns either
+  #   `success` or `failure`, you can put whatever you want in the method bodies
+  #   and in any files in the lib/fam/family directory.
   class << self
     # IMPLEMENT ME
     def add_person(
