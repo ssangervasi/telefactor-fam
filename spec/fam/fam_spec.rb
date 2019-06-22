@@ -123,11 +123,41 @@ RSpec.describe Fam do
       lines = get_parents.output.lines.map(&:chomp)
       expect(lines).to match_array(parent_names)
     end
+  end
 
-    it 'does not write an output file' do
-      get_parents
+  describe '#get_grandparents' do
+    subject(:get_grandparents) do
+      Fam.get_grandparents(
+        input_path: input_pathname.to_s,
+        child_name: example_child.name,
+        greatness: greatness
+      )
+    end
 
-      expect(output_pathname).to_not exist
+    let(:input_contents) { hatcher.great_big_family.to_h }
+    let(:example_child) { hatcher.root_child }
+    let(:hatcher) { Hatchery::GreatBigFamilyHatcher.new(gen_count: 4) }
+
+    describe 'with greatness 0' do
+      let(:greatness) { 0 }
+
+      it { is_expected.to be_success }
+
+      it 'returns each grandparent name on a line' do
+        lines = get_grandparents.output.lines.map(&:chomp)
+        expect(lines).to match_array(hatcher.generations[2].map(&:name))
+      end
+    end
+
+    describe 'with greatness 1' do
+      let(:greatness) { 1 }
+
+      it { is_expected.to be_success }
+
+      it 'returns each great-grandparent name on a line' do
+        lines = get_grandparents.output.lines.map(&:chomp)
+        expect(lines).to match_array(hatcher.generations[3].map(&:name))
+      end
     end
   end
 end

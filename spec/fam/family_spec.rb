@@ -107,7 +107,39 @@ RSpec.describe Fam::Family do
   end
 
   describe '#get_grandparents' do
-    it 'gets four grandparents'
+    let(:example_child) { hatcher.root_child }
+    let(:family) { hatcher.great_big_family }
+    let(:hatcher) { Hatchery::GreatBigFamilyHatcher.new(gen_count: 4) }
+
+    describe 'when called without greatness' do
+      subject(:get_grandparents) { family.get_grandparents(example_child) }
+
+      it 'just gets first level grandparents' do
+        expect(get_grandparents).to eq hatcher.generations[2]
+      end
+    end
+
+    describe 'when called with greatness' do
+      subject(:get_grandparents) do
+        family.get_grandparents(example_child, greatness: greatness)
+      end
+
+      context 'with greatness 1' do
+        let(:greatness) { 1 }
+
+        it 'skips a generation' do
+          expect(get_grandparents).to eq hatcher.generations[3]
+        end
+      end
+
+      context 'with greatness 2' do
+        let(:greatness) { 2 }
+
+        it 'runs out of levels and returns empty' do
+          expect(get_grandparents).to eq []
+        end
+      end
+    end
   end
 
   describe '.from_h' do

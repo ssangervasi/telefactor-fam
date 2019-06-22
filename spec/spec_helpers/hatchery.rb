@@ -79,4 +79,38 @@ module Hatchery
       end
     end
   end
+
+  class GreatBigFamilyHatcher
+    def initialize(gen_count:)
+      @gen_count = gen_count
+    end
+
+    # Consructs a dense family tree @gen_count tall, starting with one child
+    #   and expanding up to their parents, grandparents, great...
+    def great_big_family
+      @great_big_family ||= Fam::Family.new(people: generations.flatten).tap do |family|
+        generations.first(@gen_count - 1).each_with_index do |children, gen_index|
+          children.zip(generations[gen_index + 1].each_slice(2)) do |child, parents|
+            parents.each do |parent|
+              family.add_parent(parent: parent, child: child)
+            end
+          end
+        end
+      end
+    end
+
+    def generations
+      @generations ||= (0...@gen_count).map do |gen_index|
+        person_count = 2**gen_index
+        (0...person_count).map do |person_index|
+          name = "Gen #{gen_index} Person #{person_index}"
+          Fam::Family::Person.new(name: name)
+        end
+      end
+    end
+
+    def root_child
+      generations.first.first
+    end
+  end
 end

@@ -18,7 +18,7 @@ class Fam::Family
 
     def to_h
       {
-        name: name
+        name: name,
       }
     end
 

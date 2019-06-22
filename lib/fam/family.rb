@@ -39,13 +39,17 @@ module Fam
 
     def to_h
       {
-        people: @name_to_person.values.map(&:to_h),
+        people: people.map(&:to_h),
         relationships: @relationships.map(&:to_h),
       }
     end
 
     def inspect
-      "#<#{self.class.name} with #{@people.length} members>"
+      "#<#{self.class.name} with #{people.length} members>"
+    end
+
+    def people
+      @name_to_person.values
     end
 
     def add_person(person)
@@ -85,10 +89,12 @@ module Fam
       end
     end
 
-    def get_grandparents(child:, greatness:)
-      get_parent_relationships(child).map do |relationship|
-        get_person(relationship.parent_name)
+    def get_grandparents(child, greatness: 0)
+      grandparents = get_parents(child)
+      (0..greatness).each do
+        grandparents = grandparents.flat_map(&method(:get_parents))
       end
+      grandparents
     end
 
     private

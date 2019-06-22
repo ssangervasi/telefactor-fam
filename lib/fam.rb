@@ -116,16 +116,18 @@ module Fam
       greatness:
     )
       json_hash = read(path: input_path)
-      success(
-        <<~MESSAGE
-          input_path: #{input_path.inspect}
-          child_name: #{child_name.inspect}
-          greatness: #{greatness.inspect}
+      family = Fam::Family.from_h(json_hash)
 
-          json_hash:
-          #{json_hash.inspect}
-        MESSAGE
-      )
+      begin
+        child = family.get_person(child_name)
+      rescue Fam::Family::Errors::NoSuchPerson => e
+        return failure("No child named '#{e.message}' in family '#{input_path}'!")
+      end
+
+      grandparents = family.get_grandparents(child, greatness: greatness.to_i)
+      names_on_lines = grandparents.map(&:name).join("\n")
+
+      success(names_on_lines)
     end
   end
 end
