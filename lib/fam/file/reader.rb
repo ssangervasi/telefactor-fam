@@ -13,6 +13,7 @@ module Fam::File
 
     def self.create(path:)
       return NullReader.new if path.nil? || path.empty?
+
       pathname = Pathname.new(path)
       return NullReader.new unless pathname.exist?
 

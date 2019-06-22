@@ -32,31 +32,20 @@ module Fam::CLI
         .input_path
         .child_name
 
-      option(
-        :side,
-        aliases: %w[-s],
-        desc: 'The side of the family.',
-        values: %w[both mother left father right],
-        default: 'both'
-      )
-
       desc <<~DESC
         Get the parents of a child, printing each on a seperate line.
-        The sides of the family are non-gendered, so "mother" and "father"
-        are aliases for "left" and "right", respectively.
+        The parents are non-gendered, but a person only gets 2
       DESC
 
       def call(
         input_path:,
         child_name:,
-        side:,
         **
       )
         finish(
           Fam.get_parents(
             input_path: input_path,
             child_name: child_name,
-            side: side
           )
         )
       end

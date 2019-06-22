@@ -13,5 +13,11 @@ class Fam::Family
     end
 
     attr_reader :name
+
+    def to_h
+      {
+        name: name
+      }
+    end
   end
 end

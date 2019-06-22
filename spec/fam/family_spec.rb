@@ -10,16 +10,15 @@ RSpec.describe Fam::Family do
       described_class.from_h(
         people: [
           {
-            name: Hatchery::Names.bart
+            name: Hatchery::Names.bart,
           },
           {
-            name: Hatchery::Names.homer
-          }
+            name: Hatchery::Names.homer,
+          },
         ],
         relationships: [
           child_name: Hatchery::Names.bart,
           parent_name: Hatchery::Names.homer,
-          side: Fam::Family::Relationship::Sides::RIGHT
         ]
       )
     end
@@ -28,8 +27,7 @@ RSpec.describe Fam::Family do
     it { is_expected.to include(Hatchery::Names.bart, Hatchery::Names.homer) }
   end
 
-
-  xdescribe '#add_person' do
+  describe '#add_person' do
     let(:example_person) { Fam::Family::Person.new(name: Hatchery::Names.jose) }
 
     context 'when the name is new' do
@@ -37,7 +35,7 @@ RSpec.describe Fam::Family do
 
       it 'adds a person' do
         add_person
-        expect(family).to include(example_person)
+        expect(family).to include(example_person.name)
       end
     end
 
@@ -64,24 +62,10 @@ RSpec.describe Fam::Family do
         add_many
         aggregate_failures do
           example_people.each do |person|
-            expect(family).to include(person)
+            expect(family).to include(person.name)
           end
         end
       end
-    end
-  end
-
-  xdescribe '#add_parents' do
-    it 'works' do
-      Hatchery::Names.simpsons.each { |name| family.add_person(name: name) }
-
-      family.add_parents(
-        child_name: Hatchery::Names.bart,
-        parent_names: [
-          Hatchery::Names.homer,
-          Hatchery::Names.marge,
-        ]
-      )
     end
   end
 end

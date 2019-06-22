@@ -12,7 +12,7 @@ module Fam::CLI
           :input_path,
           aliases: %w[-i],
           desc: 'The family tree file read from.',
-          default: './family.json',
+          default: './family.json'
         )
       end
     end

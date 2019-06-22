@@ -30,10 +30,12 @@ module Fam
     )
       json_hash = read(path: input_path)
 
-      json_hash[:people] ||= []
-      json_hash[:people] << person_name
+      family = Fam::Family.from_h(json_hash)
+      family.add_person(
+        Fam::Family::Person.new(name: person_name)
+      )
 
-      write(path: output_path, json_hash: json_hash)
+      write(path: output_path, json_hash: family.to_h)
       success("Added person: #{person_name}")
     end
 
@@ -45,7 +47,32 @@ module Fam
       parent_names:
     )
       json_hash = read(path: input_path)
-      write(path: output_path, json_hash: json_hash)
+
+      family = Fam::Family.from_h(json_hash)
+
+      missing_name = (child_name + parent_names).find do |person_name|
+        !family.include?(person_name)
+      end
+      unless missing_name.nil?
+        return failure("No such person '#{missing_name}' in family '#{input_path}'!")
+      end
+
+      child = family.get_person(child_name)
+      requested_parents = parent_names.map do |parent_name|
+        family.get_person(parent_name)
+      end
+
+      existing_parents = family.get_parents(child)
+      new_parents = requested_parents - existing_parents
+      if new_parents.count + existing_parents.count > 2
+        return failure("Child '#{child.name}' already has #{existing_parents.count} parent(s)!")
+      end
+
+      new_parents.each do |parent|
+        family.add_parent(parent: parent, child: child)
+      end
+
+      write(path: output_path, json_hash: family.to_h)
       success("Added #{parent_names.join(' & ')} as parents of #{child_name}")
     end
 
@@ -55,8 +82,9 @@ module Fam
       person_name:
     )
       json_hash = read(path: input_path)
-      people = json_hash.fetch(:people, [])
-      return success(person_name) if people.include?(person_name)
+
+      family = Fam::Family.from_h(json_hash)
+      return success(person_name) if family.include?(person_name)
 
       failure("No such person '#{person_name}' in family '#{input_path}'")
     end
@@ -64,15 +92,13 @@ module Fam
     # IMPLEMENT ME
     def get_parents(
       input_path:,
-      child_name:,
-      side:
+      child_name:
     )
       json_hash = read(path: input_path)
       success(
         <<~MESSAGE
           input_path: #{input_path.inspect}
           child_name: #{child_name.inspect}
-          side:       #{side.inspect}
 
           json_hash:
           #{json_hash.inspect}

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'fam/family/person'
-require 'fam/family/nuclear'
 require 'fam/family/relationship'
 
 module Fam
@@ -30,16 +29,16 @@ module Fam
       )
     end
 
-    def to_h
-      {
-        people: @people.map(&:to_h),
-        relationships: relationships.map(&:to_h),
-      }
+    def initialize(people: [], relationships: [])
+      initialize_name_to_person(people)
+      @relationships = relationships
     end
 
-    def initialize(people: [], relationships: [])
-      @people = people
-      @relationships = relationships
+    def to_h
+      {
+        people: @name_to_person.values.map(&:to_h),
+        relationships: @relationships.map(&:to_h),
+      }
     end
 
     def inspect
@@ -47,44 +46,27 @@ module Fam
     end
 
     def add_person(person)
-      raise Errors::DuplicatePerson if include?(person)
+      raise Errors::DuplicatePerson if include?(person.name)
 
-      name_to_person[person.name] = person
+      @name_to_person[person.name] = person
+    end
+
+    def get_person(name)
+      raise NoSuchPerson unless include?(name: name)
+
+      @name_to_person.fetch(name)
     end
 
     def include?(name)
-      name_to_person.include?(name)
-    end
-
-    def get_person(name:)
-      raise NoSuchPerson unless include?(name: name)
-
-      name_to_person.fetch(name)
-    end
-
-    def add_parents(child_name:, parent_names:)
-      child = get_person(name: child_name)
-      parents = parent_names.map do |name|
-        get_person(name: name)
-      end
-    end
-
-    def get_parents(person)
-      []
+      @name_to_person.include?(name)
     end
 
     private
 
-    def name_to_person
-      @name_to_person ||= @people.to_h do |person|
+    def initialize_name_to_person(people)
+      @name_to_person = people.to_h do |person|
         [person.name, person]
       end
-    end
-
-    # def get_relation
-
-    def relationships
-      @relationships ||= Set.new
     end
   end
 end
