@@ -2,6 +2,8 @@
 
 class Fam::Family
   class Relationship
+    include Comparable
+
     def self.from_h(input_hash)
       new(
         child_name: input_hash.fetch(:child_name),
@@ -25,6 +27,11 @@ class Fam::Family
         child_name: child_name,
         parent_name: parent_name,
       }
+    end
+
+    def <=>(other)
+      [child_name, parent_name] <=>
+        [other.child_name, other.parent_name]
     end
   end
 end

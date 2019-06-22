@@ -8,6 +8,10 @@ module Hatchery
         [bart, homer, marge]
       end
 
+      def simpson_parents
+        [homer, marge]
+      end
+
       def bart
         'Bart Simpson'
       end
@@ -32,6 +36,10 @@ module Hatchery
         [bart, homer, marge]
       end
 
+      def simpson_parents
+        [homer, marge]
+      end
+
       def bart
         Fam::Family::Person.new(name: Hatchery::Names.bart)
       end
@@ -46,6 +54,28 @@ module Hatchery
 
       def jose
         Fam::Family::Person.new(name: Hatchery::Names.jose)
+      end
+    end
+  end
+
+  module Relationships
+    class << self
+      def simpson_parents
+        [bart_homer, bart_marge]
+      end
+
+      def bart_homer
+        Fam::Family::Relationship.new(
+          child_name: Hatchery::Names.bart,
+          parent_name: Hatchery::Names.homer
+        )
+      end
+
+      def bart_marge
+        Fam::Family::Relationship.new(
+          child_name: Hatchery::Names.bart,
+          parent_name: Hatchery::Names.marge
+        )
       end
     end
   end

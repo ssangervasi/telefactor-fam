@@ -64,7 +64,7 @@ RSpec.describe Fam do
     end
 
     let(:child_name) { Hatchery::Names.bart }
-    let(:parent_names) { [Hatchery::Names.homer, Hatchery::Names.marge] }
+    let(:parent_names) { Hatchery::Names.simpson_parents }
 
     it { is_expected.to be_success }
 
@@ -115,7 +115,7 @@ RSpec.describe Fam do
     end
 
     let(:child_name) { Hatchery::Names.bart }
-    let(:parent_names) { [Hatchery::Names.homer, Hatchery::Names.marge] }
+    let(:parent_names) { Hatchery::Names.simpson_parents }
 
     it { is_expected.to be_success }
 

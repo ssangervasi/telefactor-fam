@@ -2,6 +2,8 @@
 
 class Fam::Family
   class Person
+    include Comparable
+
     def self.from_h(input_hash)
       new(
         name: input_hash.fetch(:name)
@@ -18,6 +20,10 @@ class Fam::Family
       {
         name: name
       }
+    end
+
+    def <=>(other)
+      name <=> other.name
     end
   end
 end

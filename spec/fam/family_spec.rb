@@ -3,46 +3,33 @@
 require 'spec_helper'
 
 RSpec.describe Fam::Family do
-  subject(:family) { described_class.new }
-
-  describe '.from_h' do
-    subject(:family) do
-      described_class.from_h(
-        people: [
-          {
-            name: Hatchery::Names.bart,
-          },
-          {
-            name: Hatchery::Names.homer,
-          },
-        ],
-        relationships: [
-          child_name: Hatchery::Names.bart,
-          parent_name: Hatchery::Names.homer,
-        ]
-      )
-    end
-
-    it { is_expected.to be_a_kind_of(Fam::Family) }
-    it { is_expected.to include(Hatchery::Names.bart, Hatchery::Names.homer) }
+  subject(:family) do
+    described_class.new(
+      people: initial_people,
+      relationships: initial_relationships
+    )
   end
+
+  let(:initial_people) { [] }
+  let(:initial_relationships) { [] }
 
   describe '#add_person' do
     subject(:add_person) { family.add_person(example_person) }
 
     let(:example_person) { Hatchery::People.jose }
 
-    context 'when the name is new' do
+    context 'when the person is new' do
       it 'adds a person' do
         add_person
+
         expect(family).to include(example_person.name)
       end
     end
 
-    context 'when the name has already been added' do
-      it 'raises a duplicate person error' do
-        family.add_person(example_person)
+    context 'when their name has already been added' do
+      let(:initial_people) { [example_person] }
 
+      it 'raises a duplicate person error' do
         expect { add_person }
           .to raise_error(Fam::Family::Errors::DuplicatePerson)
       end
@@ -58,6 +45,7 @@ RSpec.describe Fam::Family do
 
       it 'includes them all' do
         add_many
+
         aggregate_failures do
           example_people.each do |person|
             expect(family).to include(person.name)
@@ -76,12 +64,9 @@ RSpec.describe Fam::Family do
     end
 
     context 'when adding people that are already in the family' do
-      let(:example_parent) do
-        family.add_person(Hatchery::People.homer)
-      end
-      let(:example_child) do
-        family.add_person(Hatchery::People.bart)
-      end
+      let(:initial_people) { Hatchery::People.simpsons }
+      let(:example_parent) { Hatchery::People.homer }
+      let(:example_child) { Hatchery::People.bart }
 
       it 'adds the parent' do
         add_parent
@@ -105,15 +90,7 @@ RSpec.describe Fam::Family do
     end
 
     context 'when the person already has two parents' do
-      let!(:existing_parents) do
-        [
-          Hatchery::People.marge,
-          Hatchery::People.homer,
-        ].map do |person|
-          family.add_person(person)
-          family.add_parent(parent: person, child: example_child)
-        end
-      end
+      let(:initial_relationships) { Hatchery::Relationships.simpson_parents }
 
       let(:example_parent) do
         family.add_person(Hatchery::People.jose)
@@ -127,5 +104,31 @@ RSpec.describe Fam::Family do
           .to raise_error(Fam::Family::Errors::ExcessParents)
       end
     end
+  end
+
+  describe '#get_grandparents' do
+    it 'gets four grandparents'
+  end
+
+  describe '.from_h' do
+    subject(:family) do
+      described_class.from_h(
+        people: [
+          {
+            name: Hatchery::Names.bart,
+          },
+          {
+            name: Hatchery::Names.homer,
+          },
+        ],
+        relationships: [
+          child_name: Hatchery::Names.bart,
+          parent_name: Hatchery::Names.homer,
+        ]
+      )
+    end
+
+    it { is_expected.to be_a_kind_of(Fam::Family) }
+    it { is_expected.to include(Hatchery::Names.bart, Hatchery::Names.homer) }
   end
 end

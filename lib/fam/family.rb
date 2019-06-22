@@ -85,6 +85,12 @@ module Fam
       end
     end
 
+    def get_grandparents(child:, greatness:)
+      get_parent_relationships(child).map do |relationship|
+        get_person(relationship.parent_name)
+      end
+    end
+
     private
 
     def assert_includes!(*names)

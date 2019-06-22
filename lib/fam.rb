@@ -79,9 +79,14 @@ module Fam
       json_hash = read(path: input_path)
 
       family = Fam::Family.from_h(json_hash)
-      return success(person_name) if family.include?(person_name)
+      person =
+        begin
+          family.get_person(person_name)
+        rescue Fam::Family::Errors::NoSuchPerson => e
+          return failure("No such person '#{e.message}' in family '#{input_path}'")
+        end
 
-      failure("No such person '#{person_name}' in family '#{input_path}'")
+      success(person.name)
     end
 
     # IMPLEMENT ME
@@ -100,7 +105,8 @@ module Fam
 
       parents = family.get_parents(child)
       names_on_lines = parents.map(&:name).join("\n")
-      return success(names_on_lines)
+
+      success(names_on_lines)
     end
 
     # IMPLEMENT ME
