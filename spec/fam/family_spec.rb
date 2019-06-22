@@ -69,20 +69,63 @@ RSpec.describe Fam::Family do
 
   describe '#add_parent' do
     subject(:add_parent) do
-      family.add_person(example_child)
-      family.add_person(example_parent)
       family.add_parent(
         parent: example_parent,
         child: example_child
       )
     end
 
-    let(:example_parent) { Hatchery::People.homer }
-    let(:example_child) { Hatchery::People.bart }
+    context 'when adding people that are already in the family' do
+      let(:example_parent) do
+        family.add_person(Hatchery::People.homer)
+      end
+      let(:example_child) do
+        family.add_person(Hatchery::People.bart)
+      end
 
-    it 'allows you to get the parent afterwards' do
-      add_parent
-      expect(family.get_parents(example_child)).to include(example_parent)
+      it 'adds the parent' do
+        add_parent
+
+        expect(family.get_parents(example_child)).to include(example_parent)
+      end
+    end
+
+    context 'when adding people who are not in the family' do
+      let(:example_parent) do
+        Hatchery::People.homer
+      end
+      let(:example_child) do
+        Hatchery::People.bart
+      end
+
+      it 'raises a no such person error' do
+        expect { add_parent }
+          .to raise_error(Fam::Family::Errors::NoSuchPerson)
+      end
+    end
+
+    context 'when the person already has two parents' do
+      let!(:existing_parents) do
+        [
+          Hatchery::People.marge,
+          Hatchery::People.homer,
+        ].map do |person|
+          family.add_person(person)
+          family.add_parent(parent: person, child: example_child)
+        end
+      end
+
+      let(:example_parent) do
+        family.add_person(Hatchery::People.jose)
+      end
+      let(:example_child) do
+        family.add_person(Hatchery::People.bart)
+      end
+
+      it 'raises an excess parents error' do
+        expect { add_parent }
+          .to raise_error(Fam::Family::Errors::ExcessParents)
+      end
     end
   end
 end

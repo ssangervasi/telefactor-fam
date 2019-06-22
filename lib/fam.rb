@@ -50,26 +50,21 @@ module Fam
 
       family = Fam::Family.from_h(json_hash)
 
-      missing_name = (child_name + parent_names).find do |person_name|
-        !family.include?(person_name)
-      end
-      unless missing_name.nil?
-        return failure("No such person '#{missing_name}' in family '#{input_path}'!")
-      end
-
-      child = family.get_person(child_name)
-      requested_parents = parent_names.map do |parent_name|
-        family.get_person(parent_name)
+      begin
+        child = family.get_person(child_name)
+        parents = parent_names.map do |parent_name|
+          family.get_person(parent_name)
+        end
+      rescue Fam::Family::Errors::NoSuchPerson => e
+        return failure("No such person '#{e.message}' in family '#{input_path}'!")
       end
 
-      existing_parents = family.get_parents(child)
-      new_parents = requested_parents - existing_parents
-      if new_parents.count + existing_parents.count > 2
-        return failure("Child '#{child.name}' already has #{existing_parents.count} parent(s)!")
-      end
-
-      new_parents.each do |parent|
-        family.add_parent(parent: parent, child: child)
+      begin
+        parents.each do |parent|
+          family.add_parent(parent: parent, child: child)
+        end
+      rescue Errors::ExcessParents
+        return failure("Child '#{child.name}' can't have more than #{Fam::Family::MAX_PARENTS} parents!")
       end
 
       write(path: output_path, json_hash: family.to_h)
@@ -95,15 +90,17 @@ module Fam
       child_name:
     )
       json_hash = read(path: input_path)
-      success(
-        <<~MESSAGE
-          input_path: #{input_path.inspect}
-          child_name: #{child_name.inspect}
+      family = Fam::Family.from_h(json_hash)
 
-          json_hash:
-          #{json_hash.inspect}
-        MESSAGE
-      )
+      begin
+        child = family.get_person(child_name)
+      rescue Fam::Family::Errors::NoSuchPerson => e
+        return failure("No child named '#{e.message}' in family '#{input_path}'!")
+      end
+
+      parents = family.get_parents(child)
+      names_on_lines = parents.map(&:name).join("\n")
+      return success(names_on_lines)
     end
 
     # IMPLEMENT ME

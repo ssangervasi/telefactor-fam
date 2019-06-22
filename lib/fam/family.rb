@@ -8,6 +8,8 @@ module Fam
   # Other than the class name, everything in here gets cleared when before
   # the code is handed off to the sourcerer.
   class Family
+    MAX_PARENTS = 2
+
     module Errors
       class Any < StandardError; end
       class DuplicatePerson < Any; end
@@ -53,7 +55,7 @@ module Fam
     end
 
     def get_person(name)
-      raise Errors::NoSuchPerson, name unless include?(name)
+      assert_includes!(name)
 
       @name_to_person.fetch(name)
     end
@@ -63,11 +65,12 @@ module Fam
     end
 
     def add_parent(parent:, child:)
-      get_person(parent.name)
-      get_person(child.name)
+      assert_includes!(parent.name, child.name)
+
       parent_relationships = get_parent_relationships(child)
-      return parent if parent_relationships.map(&:name).include?(parent.name)
-      raise Errors::ExcessParents if parent_relationships.count == 2
+      is_already_a_parent = parent_relationships.map(&:parent_name).include?(parent.name)
+      return parent if is_already_a_parent
+      raise Errors::ExcessParents if parent_relationships.count >= MAX_PARENTS
 
       @relationships << Fam::Family::Relationship.new(
         child_name: child.name,
@@ -83,6 +86,12 @@ module Fam
     end
 
     private
+
+    def assert_includes!(*names)
+      names.each do |name|
+        raise Errors::NoSuchPerson, name unless include?(name)
+      end
+    end
 
     def get_parent_relationships(child)
       @relationships.select do |relationship|
