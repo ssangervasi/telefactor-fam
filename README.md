@@ -91,24 +91,31 @@ Both should work.
 
 The default output will be a help with a summary of the commands that we'll implement.
 
+Get the help for a particular command:
+
+```sh
+bundle exec fam add parents --help
+./exe/fam g gpt --help
+```
+
 ### 4. Test
+
+Run the tests which examiners are supposed to write:
+
+```sh
+bundle exec rspec spec/fam
+```
+
+Run the slow CLI & I/O tests which don't change between rounds:
+
+```sh
+bundle exec rspec spec/boilerplate
+```
 
 Run all the tests:
 
 ```sh
 bundle exec rspec
-```
-
-Run the tests which examiners are supposed to write:
-
-```sh
-bundle exec rspec spec/family
-```
-
-Run the CLI tests which don't change between rounds:
-
-```sh
-bundle exec rspec spec/cli
 ```
 
 ### 5. Lint

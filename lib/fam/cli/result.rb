@@ -15,19 +15,15 @@ module Fam::CLI
       end
     end
 
-    def initialize(
-      output:,
-      error:,
-      status:
-    )
+    def initialize(output, error, status)
       @output = output
       @error = error
       @status = status
     end
 
-    attr_reader output,
-                error,
-                status
+    attr_reader :output,
+                :error,
+                :status
 
     def success?
       status.zero?
