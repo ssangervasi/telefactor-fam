@@ -1,27 +1,27 @@
 # Git Log
 
 ```
-commit 10ae046b2e1e18c3473a7e37d538b93163479cdc
+commit a2cbf99e5e743fc12cfac078373fc4481f227eba
 Author: Sebastian Sangervasi <ssangervasi@squareup.com>
-Date:   Sat Jun 22 16:50:31 2019 -0700
+Date:   Sat Jun 22 17:21:07 2019 -0700
 
-    Result had a dumb bug
+    Removed the tests
 ```
 
 # CLOC
 
 
-cloc|github.com/AlDanial/cloc v 1.82  T=0.04 s (1067.6 files/s, 50863.6 lines/s)
+cloc|github.com/AlDanial/cloc v 1.82  T=0.04 s (1074.6 files/s, 42763.3 lines/s)
 --- | ---
 
 Language|files|blank|comment|code
 :-------|-------:|-------:|-------:|-------:
-Ruby|30|266|182|1169
+Ruby|30|211|182|911
 Markdown|7|64|0|120
-Bourne Again Shell|1|4|0|22
+Bourne Again Shell|1|5|0|28
 YAML|1|6|10|15
 --------|--------|--------|--------|--------
-SUM:|39|340|192|1326
+SUM:|39|286|192|1074
 
 # Spec Results
 
@@ -79,52 +79,8 @@ Fam::File::Writer::JSONWriter
     should be a kind of String
     modifies the specified file
 
-Fam
-  #add_person
-    should be success
-    writes the person name to the output file
-  #add_parents
-    should be success
-    writes the new relationship to the output file
-  #get_parents
-    should be success
-    returns each parent name on a line
-  #get_grandparents
-    with greatness 0
-      should be success
-      returns each grandparent name on a line
-    with greatness 1
-      should be success
-      returns each great-grandparent name on a line
-
-Fam::Family
-  #add_person
-    when the person is new
-      adds a person
-    when their name has already been added
-      raises a duplicate person error
-    adding many people
-      includes them all
-  #add_parent
-    when adding people that are already in the family
-      adds the parent
-    when adding people who are not in the family
-      raises a no such person error
-    when the person already has two parents
-      raises an excess parents error
-  #get_grandparents
-    when called without greatness
-      just gets first level grandparents
-    when called with greatness
-      with greatness 1
-        skips a generation
-      with greatness 2
-        runs out of levels and returns empty
-  .from_h
-    should be a kind of Fam::Family
-    should include "Bart Simpson" and "Homer Simpson"
-
-Finished in 15.68 seconds (files took 0.43113 seconds to load)
-41 examples, 0 failures
+Finished in 14.16 seconds (files took 0.38512 seconds to load)
+20 examples, 0 failures
 
 ```
+
