@@ -25,9 +25,17 @@ fi
 	echo
 
 	echo '# Spec Results'
+	echo '## Fam'
 	echo
 	echo '```'
-	bundle exec rspec
+	bundle exec rspec spec/fam
+	echo '```'
+	echo
+
+	echo '## Boilerplate'
+	echo
+	echo '```'
+	bundle exec rspec spec/boilerplate
 	echo '```'
 	echo
 ) | tee "$STATS_PATH"
