@@ -32,15 +32,7 @@ module Fam
       output_path:,
       person_name:
     )
-      json_hash = read(path: input_path)
-
-      family = Fam::Family.from_h(json_hash)
-      family.add_person(
-        Fam::Family::Person.new(name: person_name)
-      )
-
-      write(path: output_path, json_hash: family.to_h)
-      success("Added person: #{person_name}")
+      failure
     end
 
     # IMPLEMENT ME
@@ -50,29 +42,7 @@ module Fam
       child_name:,
       parent_names:
     )
-      json_hash = read(path: input_path)
-
-      family = Fam::Family.from_h(json_hash)
-
-      begin
-        child = family.get_person(child_name)
-        parents = parent_names.map do |parent_name|
-          family.get_person(parent_name)
-        end
-      rescue Fam::Family::Errors::NoSuchPerson => e
-        return failure("No such person '#{e.message}' in family '#{input_path}'!")
-      end
-
-      begin
-        parents.each do |parent|
-          family.add_parent(parent: parent, child: child)
-        end
-      rescue Errors::ExcessParents
-        return failure("Child '#{child.name}' can't have more than #{Fam::Family::MAX_PARENTS} parents!")
-      end
-
-      write(path: output_path, json_hash: family.to_h)
-      success("Added #{parent_names.join(' & ')} as parents of #{child_name}")
+      failure
     end
 
     # IMPLEMENT ME
@@ -80,17 +50,7 @@ module Fam
       input_path:,
       person_name:
     )
-      json_hash = read(path: input_path)
-
-      family = Fam::Family.from_h(json_hash)
-      person =
-        begin
-          family.get_person(person_name)
-        rescue Fam::Family::Errors::NoSuchPerson => e
-          return failure("No such person '#{e.message}' in family '#{input_path}'")
-        end
-
-      success(person.name)
+      failure
     end
 
     # IMPLEMENT ME
@@ -98,19 +58,7 @@ module Fam
       input_path:,
       child_name:
     )
-      json_hash = read(path: input_path)
-      family = Fam::Family.from_h(json_hash)
-
-      begin
-        child = family.get_person(child_name)
-      rescue Fam::Family::Errors::NoSuchPerson => e
-        return failure("No child named '#{e.message}' in family '#{input_path}'!")
-      end
-
-      parents = family.get_parents(child)
-      names_on_lines = parents.map(&:name).join("\n")
-
-      success(names_on_lines)
+      failure
     end
 
     # IMPLEMENT ME
@@ -119,19 +67,7 @@ module Fam
       child_name:,
       greatness:
     )
-      json_hash = read(path: input_path)
-      family = Fam::Family.from_h(json_hash)
-
-      begin
-        child = family.get_person(child_name)
-      rescue Fam::Family::Errors::NoSuchPerson => e
-        return failure("No child named '#{e.message}' in family '#{input_path}'!")
-      end
-
-      grandparents = family.get_grandparents(child, greatness: greatness.to_i)
-      names_on_lines = grandparents.map(&:name).join("\n")
-
-      success(names_on_lines)
+      failure
     end
   end
 end
