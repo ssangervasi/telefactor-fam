@@ -132,3 +132,11 @@ Want to automatically conform to the project style? Run this:
 ```sh
 bundle exec rubocop --auto-correct
 ```
+
+## Golden rule
+
+Don't forget:
+
+> Have fun, be courteous of others.
+
+All other rules can be bent in service of this rule.
