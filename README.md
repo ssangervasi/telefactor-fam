@@ -1,3 +1,19 @@
+# Telefactor: Fam
+
+This is the starting repository for the "Fam" Telefactor game.
+Fam is a basic CLI tool for creating and querying family trees.
+
+The `master` branch contains both the source and tests of the original implementation
+created by the game master (@ssangervasi).
+
+The `source-no-tests` branch contains the implementation, but with all of the tests missing. This is what was handed to the first examiner at the start of the game.
+
+The `boilerplate-only` branch drops both the tests and the source, other than the
+essential gem structure and "to-do" guides. This was used as a starting point when
+creating new repositories for each player of the game, before also copying in the
+previous player's source or tests.
+
+
 # New repo, who dis?
 
 Wattup, fam?! Welcome to `fam`, fam. Fam is:
